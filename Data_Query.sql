@@ -77,3 +77,52 @@ BEGIN
     WHERE st.CustomerID = customer_id;
 END;
 $$ LANGUAGE plpgsql;
+
+-- Trigger for Logging Sales Transactions
+CREATE OR REPLACE FUNCTION LogSaleTransaction()
+RETURNS TRIGGER AS $$
+BEGIN
+    INSERT INTO SecurityLogs (EventType, TableName, RecordID, PerformedBy, Details)
+    VALUES (
+        'SALE_REGISTERED', 
+        'SalesTransactions', 
+        NEW.VehicleID, 
+        NEW.StaffID, 
+        CONCAT('Vehicle sold on ', NEW.SaleDate, ' by StaffID: ', NEW.StaffID, ' to CustomerID: ', NEW.CustomerID)
+    );
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER SaleLogTrigger
+AFTER INSERT ON SalesTransactions
+FOR EACH ROW
+EXECUTE FUNCTION LogSaleTransaction();
+
+-- Trigger for Logging Vehicle Updates
+CREATE OR REPLACE FUNCTION LogVehicleUpdate()
+RETURNS TRIGGER AS $$
+BEGIN
+    INSERT INTO SecurityLogs (EventType, TableName, RecordID, PerformedBy, Details)
+    VALUES (
+        'STATUS_UPDATE', 
+        'Vehicles', 
+        NEW.VehicleID, 
+        NULL, -- Replace with StaffID if such an attribute exists during updates
+        CONCAT(
+            'VehicleID: ', NEW.VehicleID, 
+            ' status changed to ', NEW.Status, 
+            ', price set to ', NEW.Price, 
+            ', mileage updated to ', NEW.Mileage
+        )
+    );
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER VehicleUpdateLogTrigger
+AFTER UPDATE ON Vehicles
+FOR EACH ROW
+WHEN (OLD.Status IS DISTINCT FROM NEW.Status OR OLD.Price IS DISTINCT FROM NEW.Price OR OLD.Mileage IS DISTINCT FROM NEW.Mileage)
+EXECUTE FUNCTION LogVehicleUpdate();
+
