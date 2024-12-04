@@ -30,5 +30,4 @@ INSERT INTO Customers (CustomerID, FirstName, LastName, Email) VALUES
 INSERT INTO SalesTransactions (VehicleID, SaleDate, BranchID, CustomerID, StaffID) VALUES
 (102, '2024-11-25', 2, 301, 202),
 (103, '2024-11-28', 3, 302, 203),
-(105, '2024-11-22', 2, 303, 202),
-(107, '2024-11-30', 1, 301, 201);
+(105, '2024-11-22', 2, 303, 202);
