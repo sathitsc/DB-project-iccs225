@@ -4,7 +4,7 @@ Mahidol University International College
 ICCS225 Database Foundation (Section 1)
 The Academic Year 2024–2025 Trimester 1
 
-# German Used Car Dealership Database Project
+# Used Car Dealership Database Project
 
 ## Overview
 This project is a database system designed for a German used car dealership. The proposed system will streamline dealership operations, making it easier to manage inventory, sales, customer data, and branch-specific activities.
