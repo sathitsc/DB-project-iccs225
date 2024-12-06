@@ -52,11 +52,11 @@ CREATE TABLE SalesTransactions (
 );
 
 CREATE TABLE SecurityLogs (
-    LogID SERIAL PRIMARY KEY,          -- Unique identifier for each log
-    EventTime TIMESTAMP DEFAULT NOW(), -- Automatically logs the time of the event
-    EventType VARCHAR(100),            -- Type of event (e.g., 'SALE_REGISTERED', 'STATUS_UPDATE')
-    TableName VARCHAR(100),            -- Name of the affected table (e.g., 'Vehicles', 'SalesTransactions')
-    RecordID INT,                      -- ID of the affected record (e.g., VehicleID or BranchID)
-    PerformedBy INT,                   -- StaffID
-    Details TEXT                       
+    LogID SERIAL PRIMARY KEY,
+    EventTime TIMESTAMP DEFAULT NOW(),
+    EventType VARCHAR(100),
+    TableName VARCHAR(100),
+    RecordID INT,
+    PerformedBy INT, -- StaffID only
+    Details TEXT
 );
