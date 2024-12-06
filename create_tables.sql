@@ -1,11 +1,11 @@
 
-
+-- Recreate Branches table
 CREATE TABLE Branches (
     BranchID INT PRIMARY KEY,
     BranchName VARCHAR(255) NOT NULL
 );
 
-
+-- Recreate Vehicles table
 CREATE TABLE Vehicles (
     VehicleID INT PRIMARY KEY,
     Brand VARCHAR(100),
@@ -20,7 +20,7 @@ CREATE TABLE Vehicles (
     FOREIGN KEY (BranchID) REFERENCES Branches(BranchID)
 );
 
-
+-- Recreate Staff table
 CREATE TABLE Staff (
     StaffID INT PRIMARY KEY,
     FirstName VARCHAR(100),
@@ -29,7 +29,7 @@ CREATE TABLE Staff (
     FOREIGN KEY (BranchID) REFERENCES Branches(BranchID)
 );
 
-
+-- Recreate Customers table
 CREATE TABLE Customers (
     CustomerID INT PRIMARY KEY,
     FirstName VARCHAR(100),
@@ -37,7 +37,7 @@ CREATE TABLE Customers (
     Email VARCHAR(255)
 );
 
-
+-- Recreate SalesTransactions table
 CREATE TABLE SalesTransactions (
     VehicleID INT,
     SaleDate DATE,
@@ -51,12 +51,13 @@ CREATE TABLE SalesTransactions (
     FOREIGN KEY (StaffID) REFERENCES Staff(StaffID)
 );
 
+-- Recreate SecurityLogs table
 CREATE TABLE SecurityLogs (
-    LogID SERIAL PRIMARY KEY,          -- Unique identifier for each log
-    EventTime TIMESTAMP DEFAULT NOW(), -- Automatically logs the time of the event
-    EventType VARCHAR(100),            -- Type of event (e.g., 'SALE_REGISTERED', 'STATUS_UPDATE')
-    TableName VARCHAR(100),            -- Name of the affected table (e.g., 'Vehicles', 'SalesTransactions')
-    RecordID INT,                      -- ID of the affected record (e.g., VehicleID or BranchID)
-    PerformedBy INT,                   -- StaffID
-    Details TEXT                       
+    LogID SERIAL PRIMARY KEY,
+    EventTime TIMESTAMP DEFAULT NOW(),
+    EventType VARCHAR(100),
+    TableName VARCHAR(100),
+    RecordID INT,
+    PerformedBy INT,
+    Details TEXT
 );
