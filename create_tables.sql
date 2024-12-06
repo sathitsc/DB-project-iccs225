@@ -1,11 +1,11 @@
 
-
+-- Recreate Branches table
 CREATE TABLE Branches (
     BranchID INT PRIMARY KEY,
     BranchName VARCHAR(255) NOT NULL
 );
 
-
+-- Recreate Vehicles table
 CREATE TABLE Vehicles (
     VehicleID INT PRIMARY KEY,
     Brand VARCHAR(100),
@@ -20,7 +20,7 @@ CREATE TABLE Vehicles (
     FOREIGN KEY (BranchID) REFERENCES Branches(BranchID)
 );
 
-
+-- Recreate Staff table
 CREATE TABLE Staff (
     StaffID INT PRIMARY KEY,
     FirstName VARCHAR(100),
@@ -29,7 +29,7 @@ CREATE TABLE Staff (
     FOREIGN KEY (BranchID) REFERENCES Branches(BranchID)
 );
 
-
+-- Recreate Customers table
 CREATE TABLE Customers (
     CustomerID INT PRIMARY KEY,
     FirstName VARCHAR(100),
@@ -37,7 +37,7 @@ CREATE TABLE Customers (
     Email VARCHAR(255)
 );
 
-
+-- Recreate SalesTransactions table
 CREATE TABLE SalesTransactions (
     VehicleID INT,
     SaleDate DATE,
@@ -51,6 +51,7 @@ CREATE TABLE SalesTransactions (
     FOREIGN KEY (StaffID) REFERENCES Staff(StaffID)
 );
 
+-- Recreate SecurityLogs table
 CREATE TABLE SecurityLogs (
     LogID SERIAL PRIMARY KEY,
     EventTime TIMESTAMP DEFAULT NOW(),
@@ -60,3 +61,4 @@ CREATE TABLE SecurityLogs (
     PerformedBy INT, -- StaffID only
     Details TEXT
 );
+
