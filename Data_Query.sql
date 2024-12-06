@@ -88,7 +88,11 @@ BEGIN
         'SalesTransactions', 
         NEW.VehicleID, 
         NEW.StaffID, 
-        CONCAT('Vehicle sold on ', NEW.SaleDate, ' by StaffID: ', NEW.StaffID, ' to CustomerID: ', NEW.CustomerID)
+        CONCAT(
+            'Vehicle sold on ', NEW.SaleDate, 
+            ' by StaffID: ', NEW.StaffID, 
+            ' to CustomerID: ', NEW.CustomerID
+        )
     );
     RETURN NEW;
 END;
@@ -99,6 +103,7 @@ AFTER INSERT ON SalesTransactions
 FOR EACH ROW
 EXECUTE FUNCTION LogSaleTransaction();
 
+
 -- Trigger for Logging Vehicle Updates
 CREATE OR REPLACE FUNCTION LogVehicleUpdate()
 RETURNS TRIGGER AS $$
@@ -108,7 +113,7 @@ BEGIN
         'STATUS_UPDATE', 
         'Vehicles', 
         NEW.VehicleID, 
-        NULL, -- Replace with StaffID if such an attribute exists during updates
+        NULL, -- Replace NULL with a valid StaffID if available
         CONCAT(
             'VehicleID: ', NEW.VehicleID, 
             ' status changed to ', NEW.Status, 
@@ -125,4 +130,5 @@ AFTER UPDATE ON Vehicles
 FOR EACH ROW
 WHEN (OLD.Status IS DISTINCT FROM NEW.Status OR OLD.Price IS DISTINCT FROM NEW.Price OR OLD.Mileage IS DISTINCT FROM NEW.Mileage)
 EXECUTE FUNCTION LogVehicleUpdate();
+
 
